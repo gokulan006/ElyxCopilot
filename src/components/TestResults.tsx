@@ -240,6 +240,124 @@ const TestResults: React.FC = () => {
   const lipidData = prepareLipidChartData();
   const bpData = prepareBPTrendData();
 
+  const exportAllTestResultsToPDF = () => {
+    const doc = new jsPDF();
+    
+    doc.setFontSize(20);
+    doc.setTextColor(40, 40, 40);
+    doc.text(`Joseph Martinez - Comprehensive Health Report`, 105, 20, { align: 'center' });
+    
+    doc.setFontSize(12);
+    doc.text(`Date: ${new Date().toLocaleDateString()}`, 15, 30);
+    doc.text(`Physician: Dr. Warren`, 15, 36);
+    
+    let currentY = 45;
+    
+    testPanels.forEach((panel, panelIndex) => {
+      
+      if (panelIndex > 0) {
+        doc.addPage();
+        currentY = 20;
+      }
+      
+      doc.setFontSize(16);
+      doc.setTextColor(41, 128, 185);
+      doc.text(`${panel.testType} (${panel.category})`, 15, currentY);
+      currentY += 10;
+      
+      doc.setFontSize(12);
+      doc.setTextColor(100, 100, 100);
+      doc.text(`Test Date: ${formatDate(panel.date)}`, 15, currentY);
+      currentY += 10;
+      
+       
+      doc.setFontSize(14);
+      doc.setTextColor(40, 40, 40);
+      doc.text('Key Metrics', 15, currentY);
+      currentY += 7;
+      
+      const metricsData = Object.entries(panel.results).map(([metric, data]) => [
+        metric, 
+        data.value, 
+        data.status.charAt(0).toUpperCase() + data.status.slice(1),
+        data.trend
+      ]);
+      
+      autoTable(doc, {
+        startY: currentY,
+        head: [['Metric', 'Value', 'Status', 'Trend']],
+        body: metricsData,
+        theme: 'grid',
+        headStyles: {
+          fillColor: [41, 128, 185],
+          textColor: 255,
+          fontStyle: 'bold'
+        },
+        alternateRowStyles: {
+          fillColor: [240, 240, 240]
+        },
+        columnStyles: {
+          0: { fontStyle: 'bold' },
+          2: { cellWidth: 30 },
+          3: { cellWidth: 40 }
+        }
+      });
+      
+      currentY = doc.lastAutoTable.finalY + 10;
+      
+       
+      doc.setFontSize(14);
+      doc.text('Clinical Interpretation', 15, currentY);
+      currentY += 7;
+      
+      doc.setFontSize(11);
+      const interpretationLines = doc.splitTextToSize(panel.interpretation, 180);
+      doc.text(interpretationLines, 15, currentY);
+      currentY += interpretationLines.length * 7 + 10;
+        
+      if (panel.physicianNotes) {
+        doc.setFontSize(14);
+        doc.text('Physician Notes', 15, currentY);
+        currentY += 7;
+        
+        doc.setFontSize(11);
+        const notesLines = doc.splitTextToSize(panel.physicianNotes, 180);
+        doc.text(notesLines, 15, currentY);
+        currentY += notesLines.length * 7 + 10;
+      }
+      
+       
+      if (panel.recommendations.length > 0) {
+        doc.setFontSize(14);
+        doc.text('Recommendations', 15, currentY);
+        currentY += 7;
+        
+        doc.setFontSize(11);
+        
+        panel.recommendations.forEach((rec, index) => {
+          const recLines = doc.splitTextToSize(`${index + 1}. ${rec}`, 180);
+          doc.text(recLines, 20, currentY);
+          currentY += recLines.length * 7 + 5;
+        });
+      }
+      
+       
+      currentY += 10;
+    });
+    
+     
+    const pageCount = doc.internal.getNumberOfPages();
+    for(let i = 1; i <= pageCount; i++) {
+      doc.setPage(i);
+      doc.setFontSize(10);
+      doc.setTextColor(150);
+      doc.text(`Page ${i} of ${pageCount}`, 105, 287, { align: 'center' });
+      doc.text(`Generated on ${new Date().toLocaleDateString()}`, 15, 287);
+    }
+    
+     
+    doc.save(`Joseph_Health_Comprehensive_Report_${new Date().toISOString().slice(0, 10)}.pdf`);
+  };
   return (
     <div className="p-6 max-w-7xl mx-auto">
       {/* Header */}
@@ -251,7 +369,10 @@ const TestResults: React.FC = () => {
               Comprehensive diagnostic insights for Joseph Health • {selectedTest.category}
             </p>
           </div>
-          <button className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+          <button 
+            onClick={exportAllTestResultsToPDF}
+            className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          >
             <Download className="w-4 h-4" />
             <span>Export Clinical Report</span>
           </button>
