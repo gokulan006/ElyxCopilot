@@ -128,7 +128,7 @@ const Copilot: React.FC = () => {
   const [conversations, setConversations] = useState<Message[]>([]);
 
   useEffect(() => {
-    fetch('/src/data/conversation_cleaned.json')
+    fetch('/conversation.json')
       .then(response => response.json())
       .then(data => {
         setConversations(data);
