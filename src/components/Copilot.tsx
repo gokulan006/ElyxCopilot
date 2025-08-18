@@ -45,7 +45,7 @@ const Copilot: React.FC = () => {
       pdf.text(`Generated on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}`, 20, yPosition);
       yPosition += 15;
       
-      // Group messages by date
+       
       const groupedMessages = conversations.reduce((groups: {[key: string]: Message[]}, message) => {
         const date = new Date(message.date).toDateString();
         if (!groups[date]) {
@@ -55,7 +55,7 @@ const Copilot: React.FC = () => {
         return groups;
       }, {});
       
-      // Add conversations
+       
       Object.entries(groupedMessages).forEach(([, messages]) => {
         // Check if we need a new page
         if (yPosition > pageHeight - 40) {
@@ -63,46 +63,46 @@ const Copilot: React.FC = () => {
           yPosition = 20;
         }
         
-        // Add date separator
+         
         pdf.setFontSize(12);
         pdf.setTextColor(100, 100, 100);
         pdf.text(formatDate(messages[0].date), 20, yPosition);
         yPosition += 10;
         
         messages.forEach((msg) => {
-          // Check if we need a new page
+          
           if (yPosition > pageHeight - 60) {
             pdf.addPage();
             yPosition = 20;
           }
           
-          // Add sender info
+           
           pdf.setFontSize(10);
           pdf.setTextColor(0, 0, 0);
           pdf.text(`${msg.sender || 'Unknown'} (${msg.role || 'User'}) - ${formatTime(msg.date)}`, 20, yPosition);
           yPosition += 7;
           
-          // Add message content
+           
           pdf.setFontSize(9);
           const messageLines = pdf.splitTextToSize(msg.message, pageWidth - 40);
           pdf.text(messageLines, 25, yPosition);
           yPosition += messageLines.length * 4;
           
-          // Add topic if available
+          
           if (msg.topic) {
             pdf.setTextColor(128, 0, 128);
             pdf.text(`Topic: ${msg.topic}`, 25, yPosition);
             yPosition += 5;
           }
           
-          // Add decision if available
+           
           if (msg.decision) {
             pdf.setTextColor(0, 0, 128);
             pdf.text(`Decision: ${msg.decision}`, 25, yPosition);
             yPosition += 5;
           }
           
-          // Add reason if available
+          
           if (msg.reason) {
             pdf.setTextColor(128, 128, 0);
             const reasonLines = pdf.splitTextToSize(`Reason: ${msg.reason}`, pageWidth - 50);
@@ -110,14 +110,14 @@ const Copilot: React.FC = () => {
             yPosition += reasonLines.length * 4;
           }
           
-          yPosition += 5; // Space between messages
-          pdf.setTextColor(0, 0, 0); // Reset color
+          yPosition += 5;  
+          pdf.setTextColor(0, 0, 0);  
         });
         
-        yPosition += 5; // Space between dates
+        yPosition += 5;  
       });
       
-      // Save the PDF
+       
       pdf.save(`Joseph_Martinez_Conversations_${new Date().toISOString().split('T')[0]}.pdf`);
     } catch (error) {
       console.error('Error generating PDF:', error);
@@ -138,7 +138,7 @@ const Copilot: React.FC = () => {
       })
       .catch(error => {
         console.error('Error loading conversations:', error);
-        // Set some default data if loading fails
+        
         setConversations([]);
         setSelectedMonth(1);
       });
@@ -205,7 +205,7 @@ const Copilot: React.FC = () => {
   };
 
   const getMonthName = (monthNumber: number) => {
-    // Since we have 32 weeks of data, treat each month number as a period/week
+     
     if (monthNumber == 1) return `Month 1 `;
     if (monthNumber == 2) return `Month 2 `;
     if (monthNumber == 3) return `Month 3 `;
@@ -217,7 +217,7 @@ const Copilot: React.FC = () => {
     return `Month ${monthNumber}`;
   };
 
-  // Group messages by date for date separators
+   
   const groupedMessages = conversations.reduce((groups: {[key: string]: Message[]}, message) => {
     const date = new Date(message.date).toDateString();
     if (!groups[date]) {
@@ -296,8 +296,6 @@ const Copilot: React.FC = () => {
                     {formatDate(messages[0].date)}
                   </div>
                 </div>
-
-                {/* Messages for this date */}
                 {messages.map((msg) => (
                   <div 
                     key={msg.id}
