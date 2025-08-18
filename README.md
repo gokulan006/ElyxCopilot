@@ -41,7 +41,7 @@ elyx-health-journey/
 ├─ public/                   # Static assets 
 ├─ src/                      # Main source code (React + TypeScript)
 │ ├─ components/             # UI components (Dashboard, Copilot, Profile, etc.)
-│ ├─ data/                   # Synthetic JSON data (optional)
+│ ├─ data/                    
 │ └─ ... 
 ├─ .gitignore
 ├─ LICENSE
