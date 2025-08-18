@@ -52,7 +52,7 @@ interface TestPanel {
 }
 
 const TestResults: React.FC = () => {
-  // Transform CSV data into test panels
+   
   const testPanels: TestPanel[] = [
     {
       id: 'metabolic',
