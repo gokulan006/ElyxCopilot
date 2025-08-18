@@ -9,7 +9,7 @@ import {
 } from '../data/mockData';
 
 const MemberProfile: React.FC = () => {
-  // Helper function to determine status color
+   
   const getStatusColor = (status: string) => {
     switch(status.toLowerCase()) {
       case 'active': return 'bg-green-100 text-green-800';
