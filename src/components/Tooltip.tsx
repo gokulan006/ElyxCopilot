@@ -1,4 +1,3 @@
-// src/components/Tooltip.tsx
 import React, { useState } from 'react';
 
 interface TooltipProps {
