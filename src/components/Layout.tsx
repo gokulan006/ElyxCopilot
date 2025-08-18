@@ -24,13 +24,13 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, onTabChange }) => 
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
-      {/* Sidebar */}
-      <div className=" w-64 bg-white shadow-sm border-r border-gray-200">
+      {/*Sidebar*/}
+      <div className="fixed inset-y-0 left-0 w-64 bg-white shadow-sm border-r border-gray-200 flex flex-col">
         <div className="p-6">
           <h1 className="text-xl font-bold text-gray-900">Elyx AI Powered</h1>
         </div>
         
-        <nav className="mt-6">
+        <nav className="mt-6 flex-1 overflow-y-auto">
           <div className="px-3">
             {navigation.map((item) => {
               const Icon = item.icon;
@@ -52,7 +52,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, onTabChange }) => 
           </div>
         </nav>
 
-        <div className="fixed bottom-0 w-64 p-4 border-t border-gray-200">
+        <div className="p-4 border-t border-gray-200">
           <button className="flex items-center w-full px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md">
             <Settings className="mr-3 h-5 w-5" />
             Settings
@@ -65,7 +65,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, onTabChange }) => 
       </div>
 
       {/* Main Content */}
-      <div className="flex-1">
+      <div className="flex-1 ml-64">
         {children}
       </div>
     </div>
