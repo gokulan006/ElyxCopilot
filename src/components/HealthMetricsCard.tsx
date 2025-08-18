@@ -1,4 +1,3 @@
-// src/components/HealthMetricsCard.tsx
 import React from 'react';
 
 interface Metric {
