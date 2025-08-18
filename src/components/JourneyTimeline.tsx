@@ -1,4 +1,3 @@
-// JourneyTimeline.tsx
 import React from 'react';
 
 interface TimelineEvent {
@@ -24,7 +23,7 @@ const JourneyTimeline: React.FC<JourneyTimelineProps> = ({ events }) => {
         <div className="space-y-8">
           {events.map((event, index) => (
             <div key={index} className="relative pl-12">
-              {/* Dot */}
+              
               <div className={`absolute left-0 top-1 h-4 w-4 rounded-full ${event.isMilestone ? 'bg-indigo-600 ring-4 ring-indigo-200' : 'bg-indigo-300'}`}></div>
               
               <div className="border border-gray-100 rounded-lg p-4 hover:shadow-md transition-shadow">
