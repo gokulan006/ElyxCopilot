@@ -85,8 +85,7 @@ open this url in your browser: http://localhost:5173
 ## 8. Prompt Design
 
 We generated Joseph’s 8-month health journey using structured prompts.  
-Each week contains **14 conversations**, and the flow ensures variety (normal weeks, challenge weeks, travel weeks, reset weeks, and diet-focused weeks).  
-The roles are limited to **Joseph, Doctor, Coach, and Dietitian**.  
+Each week contains **14 conversations**, and the flow ensures variety (normal weeks, challenge weeks, travel weeks, reset weeks, and diet-focused weeks).   
 
 ### Conversation Prompt
 ```
